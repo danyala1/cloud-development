@@ -11,7 +11,7 @@ for (var i = 0; i < 3; i++)
         .WithReference(redis)
         .WaitFor(redis)
         .WithHttpsEndpoint(port: 8000 + i);
-    gateway.WaitFor(service);
+    gateway.WithReference(service).WaitFor(service);
 }
 
 builder.AddProject<Projects.Client_Wasm>("client-wasm")

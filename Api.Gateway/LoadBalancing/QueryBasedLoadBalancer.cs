@@ -15,6 +15,10 @@ public class QueryBasedLoadBalancer(Func<Task<List<Service>>> services) : ILoadB
     public async Task<Response<ServiceHostAndPort>> LeaseAsync(HttpContext httpContext)
     {
         var list = await services();
+
+        if (list.Count == 0)
+            throw new InvalidOperationException("No available downstream services.");
+
         var query = httpContext.Request.Query;
 
         if (!query.ContainsKey("id") || !int.TryParse(query["id"], out var id))

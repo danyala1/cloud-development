@@ -27,7 +27,8 @@ var localstack = builder
 
 var awsResources = builder
     .AddAWSCloudFormationTemplate("resources", "CloudFormation/creditapp-template-sns.yaml", "creditapp")
-    .WithReference(awsConfig);
+    .WithReference(awsConfig)
+    .WaitFor(localstack!);
 
 for (var i = 0; i < 3; i++)
 {
